@@ -1,13 +1,12 @@
 <?php
 class Handler
 {
-    protected function view($view)
+    protected function view($path,$view)
     {
-        $path=dirname(__DIR__,1)."/views/";
-        $fallbackViewFileName = $path."404.php";
+        $fallbackViewFileName = dirname(__DIR__,1)."/views/404.php";
 
         if (!is_dir($path."")) {
-            $viewFileName =$path."{}/{$view}.php";
+            $viewFileName =$path."{$view}.php";
         }
         else
         {

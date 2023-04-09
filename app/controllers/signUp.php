@@ -8,13 +8,13 @@
         $user->name=$_POST['name'];
         $user->email=$_POST['email'];
         if (empty($user->email=$_POST['email'])) {
-                header("Location:../../public/home");
+                header("Location:".dirname(__DIR__,2)."/public/home");
                 exit();
         }
         if ($user->signUp()) {
-                header("Location:../../public/home");
+                header("Location:".dirname(__DIR__,2)."/public/home");
                 exit();
         }
-                header("Location:../../public/register");
+                header("Location:".dirname(__DIR__,2)."/public/register");
                 exit();
 ?>

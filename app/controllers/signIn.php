@@ -16,7 +16,7 @@ if (isset($_POST)) {
     elseif (empty($user->username)) 
     {
         http_response_code(400);
-        header("Location:..././public/login");
+        header("Location:../../public/login");
         echo "emptyUsername";
         exit();
     } 

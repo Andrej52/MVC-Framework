@@ -21,7 +21,7 @@ class Gallery extends Topic
     {
         $this->topic->databaseData($tablename);
         if ($this->topic->data != null) {
-            // $row is an variabla which hold the value of specific row 
+            // $row is an variable which hold the value of specific row 
             foreach($this->topic->data as $key => $row)
             {
                 echo "

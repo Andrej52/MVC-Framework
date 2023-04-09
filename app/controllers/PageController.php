@@ -1,49 +1,26 @@
 <?php
 // ©copyright Andrej-52
-require_once  __DIR__."/../core/handler.php";
+require_once  dirname(__DIR__,1)."/core/handler.php";
 class PageController  extends Handler
 {
-
     function home()
     {
-        $this->view("home");
+
+        $this->view($_SERVER['view_path'],"home");
     }
 
     function show()
     {
-        $this->view("show");
+        $this->view($_SERVER['view_path'],"show");
     }
     function error404()
     {
-        $this->view("404");
+        $this->view(dirname(__DIR__,1)."/views/","404");
     }
 
-    function register()
+    function dsa()
     {
-        $this->view("register");
-    }
-    function manage()
-    {
-        $this->view("manage");
-    }    
-    function login()
-    {
-        $this->view("login");
+        $this->view($_SERVER['view_path'],"dsa");
     }
 
-    function select()
-    {
-        $this->view("select");
-    }
-    
-    function add()
-    {
-        $this->view("add");
-    }
-    
-    function add2()
-    {
-        $this->view("add2");
-    }
-        
 }
