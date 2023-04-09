@@ -16,11 +16,38 @@
         <input type="text" placeholder="text1" name="header">
         <textarea name="desc" cols="30" rows="10"></textarea>
         <input type="file" accept="image/*"    name="img[]" multiple >
-        <input type="file" accept="doc/*"    name="files[]"  >
-        <input type="submit" value="submit">
+        <!--
+            multiple document input
+        <input type="file" accept="doc/*"    name="files[]" multiple  >
+        -->
+        <input type="submit" value="upload">
     </form>
+    <div class="output-images">
+        <div class="uploaded-img">
+            <img src="" alt="obrazok">
+        </div>
+        <div class="uploaded-img">
+            <img src="" alt="obrazok">
+        </div>
+        <div class="uploaded-img">
+            <i class="delete">X</i>
+            <img src="" alt="obrazok">
+        </div>
+        <div class="add-frame">
+            <input type="file" accept="image/*"  name="image">
+        </div>
+    </div>
 </body>
 </html>
+<script>
+    let wrap =document.querySelector(".output-images");
+    let images =document.querySelectorAll(".uploaded-img");
+    let addbtn = document.querySelector(".add-frame").firstElementChild.addEventListener("");
+    function load_content()
+    {
+        console.log(addbtn.value);
+    }
+</script>
 <style>
         form{
                 display: flex;
@@ -30,5 +57,20 @@
         input{
             margin: 10px;
         }
+        .output-images
+        {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 80%;
+            border:1px blue dotted;
+        }
+        .output-images > *
+        {
+            border:  solid 3px red;
+            height: 100px;
+            width: 100px;   
+        }
 
-</style><div class="current-time"></div>
+
+</style>

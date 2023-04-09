@@ -34,10 +34,15 @@
     </li>
 </nav>
 <body>
-    
+    <h1 style="text-align: center;">This is land page of MVC model</h1>
+    <section style="text-align: center;">
+       <p>you can edit this however u want </p>
+       <p> nav includes register if you are not Logged IN or possiblity to login if u have conected the database</p>
+       <p>Database  structure is mentioned in database Class model</p> 
+    </section>
     <?php 
      //$topic->display("adds");        
-     $gallery->show("gallery")
+     //$gallery->show("galleries");
     ?>
 
 </body>

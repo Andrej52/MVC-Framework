@@ -1,4 +1,12 @@
 <?php
+// Topic is an main scheme of an objects added onto webpage ex.(gallery,topic) and other similar items 
+//which requires storing files and inserting thei's parameters into  database 
+// RECOMENDED:
+// in function display you should edit your html how u want to be displayed your  topic's  (blog posts, articles)
+// HTML in management is an HTML scheme of table where you can see all  details about specific topic/ (gallery if gallery is extended)
+// to get better understanding visit view of manage_example
+
+
 class Topic extends Database
 {
     private $db;
@@ -9,20 +17,20 @@ class Topic extends Database
         $db = new Database();
         $this->db=$db;
     }
-
-      protected function databaseData($tablename)
+    
+    protected function databaseData($tablename)
     {
         $this->db->getData($tablename);
         $this->data= $this->db->data;
         return $this->data;
     }
     
-
     public function display($tablename)
     {
-
         $this->databaseData($tablename);
-        if ($this->data != null) {
+
+        if ($this->data != null) 
+        {
             foreach($this->data as $key => $row)
             {
                 echo "

@@ -3,8 +3,16 @@ class Handler
 {
     protected function view($view)
     {
-        $viewFileName = __DIR__."/../views/{$view}.php";
-        $fallbackViewFileName = __DIR__."/../views/404.php";
+        $path=dirname(__DIR__,1)."/views/";
+        $fallbackViewFileName = $path."404.php";
+
+        if (!is_dir($path."")) {
+            $viewFileName =$path."{}/{$view}.php";
+        }
+        else
+        {
+            $viewFileName =$path."{$view}.php";
+        }
         
         if (file_exists($viewFileName)) 
         {

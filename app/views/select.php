@@ -14,7 +14,7 @@
         <a href="add">add-topic</a>
         <a href="add2">add_gallery</a>
         <a href="select">select</a>
-        <a href="?User=logout" class="logout-btn">logout</a>
+        <?php  if(isset($_SESSION['username'])) echo '<a href="?User=logout" class="logout-btn">logout</a>'; ?>
     </li>
     <li>
         <?php echo "<div>prihlaseny ako: {$_SESSION['username']}</div>";?>

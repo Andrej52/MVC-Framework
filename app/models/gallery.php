@@ -1,4 +1,8 @@
 <?php
+// gallery model is extended model of an BASE object Topic
+// RECOMENDED:
+// if you want  different strucure  of an gallery  then edit  content of echo to the way how u want it
+// or make yourself an html  inside the view where data's should be inserted by an javascript/PHP  code to get best result
 
 class Gallery extends Topic
 {
@@ -12,10 +16,12 @@ class Gallery extends Topic
     {
         $this->topic->add($post);
     }
+
     public function show($tablename)
     {
         $this->topic->databaseData($tablename);
         if ($this->topic->data != null) {
+            // $row is an variabla which hold the value of specific row 
             foreach($this->topic->data as $key => $row)
             {
                 echo "

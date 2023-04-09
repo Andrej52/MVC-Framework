@@ -1,33 +1,34 @@
 <?php
+// the only thing u need to do if u want just simply LogIN Register or Add/delete/edit topics is 
+// adding  ediding the parameters of  database e.g(name,password,username)
+// database model's PURPOSE is ONLY for database adding not for uploading files into the server !!
 
 class Database {
-    private $DB_name="test";
-    private $DB_pwd="";
-    private $DB_user="root";
-    private $conn;
+    private $DB_name="test";        // database name on server
+    private $DB_host="localhost";  // database url 
+    private $DB_user="root";      // database username
+    private $DB_pwd="";          // database password for  an access
+    private $conn;              
     protected $sql,$sql_result,$prep,$vals,$values,$rows,$tablename;
     public $data;
-
-
 
     //constructor 
     
     public function __construct()
     {
-             $conn = new mysqli("localhost",$this->DB_user,$this->DB_pwd,$this->DB_name);
-        if (!$conn->connect_error) 
-        {
+        // setting up connection with database
+        $conn = new mysqli($this->DB_host,$this->DB_user,$this->DB_pwd,$this->DB_name);
+        if (!$conn->connect_error) {
             return $this->conn = $conn;
         }
-        else
-        {
+        else{
             return false;
         }
     }
 
     private function prepareData($post)
     {   
-        $this->tablename = array_shift($post);
+        $this->tablename = array_shift($post);              // separing targetning tablename
         $this->rows=array_keys($post);                       // getting array keys  of post
         $this->values=array_values($post);                   // getting array values of post  
         $this->vals=substr(str_repeat("?,",sizeof($post)),0,-1);   //making string of ? into prepare()
@@ -36,6 +37,7 @@ class Database {
     }
 
 
+    // function which is getting all data from specific table 
     public function getData($tablename)
     {
         $this->sql =("SELECT * from $tablename");
@@ -50,6 +52,7 @@ class Database {
             throw "<p>data not found</p>" . $e->getMessage();
         }
     }
+
 
     public function SubmitQuery($sql)
     {
@@ -102,12 +105,10 @@ class Database {
         {
             return false;
         }
-        
     }
 
     public function remove($tablename,$id)
     {
-   
         $this->sql =("DELETE * FROM $tablename WHERE id = ?");
         $this->prep="s";
         $this->values=$id;
@@ -119,5 +120,4 @@ class Database {
             return false;
         }
     }   
-    
 }

@@ -9,6 +9,7 @@
 </head>
 <body>
     <h1>pridavanie test1</h1>
+
    <form action="../app/controllers/ad.php" enctype="multipart/form-data" method="POST">
         <input type="hidden" name="table" value="adds">
         <input type="text" placeholder="nadpis" name="header">
@@ -17,9 +18,9 @@
         <input type="file" accept=".docx,.pdf,.xml"  name="doc">
         <input type="submit" value="submit">
     </form>
+
     <?php
-    if ($_GET['error'] === "topicalreadyexist")
-    {
+    if(isset($_GET['error']) && ($_GET['error'] === "topicalreadyexist")){
       echo"  <p>Topic with this name already exist!</p>";
     }
     ?>
