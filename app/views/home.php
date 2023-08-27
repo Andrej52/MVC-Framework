@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -29,7 +29,7 @@
             echo '<button id="logout"  onclick="get(logout)">logout</button>';
             echo "<div id='active_user'>prihlaseny ako: {$_SESSION['username']}</div>";
         }
-        ?>
+    ?>
     </li>
 </nav>
 <body>

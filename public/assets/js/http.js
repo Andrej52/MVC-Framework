@@ -20,8 +20,12 @@ async function post(val) {
 
 async function get(val) {
   val = val.id;
-  let result = await fetch("../app/controllers/" + val + ".php");
-
+  console.log(val);
+  let result = await fetch("../app/controllers/" + val + ".php",
+  {
+  method:"GET",
+  });
+  console.log(result);
   if (await result.redirected) {
     window.location.href = result.url
   }

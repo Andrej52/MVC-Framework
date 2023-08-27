@@ -2,9 +2,8 @@ window.onscroll = function() {
     navbar();
     topb();
 }
-window.onload=function(){
 
-}
+//window.onload=function(){}
 
 /*  top button  */
 

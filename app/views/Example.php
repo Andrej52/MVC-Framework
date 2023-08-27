@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,12 +9,12 @@
     <?php
        
        $topic=new Topic;
-       // shows html of specific table
-       // topic can be any kind of file 
-      // $topic->display("here insert tablename of topic");     
+        // shows html of specific table
+        // topic can be any kind of file 
+        // $topic->display("here insert tablename of topic");     
        
-       //  shows  table with interactions of specific table
-      // $topic->management("here insert TABLENAME");
+        //  shows  table with interactions of specific table
+        // $topic->management("here insert TABLENAME");
     ?>
 </body>
 </html>
