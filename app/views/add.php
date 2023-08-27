@@ -8,7 +8,7 @@
     <title>Add</title>
 </head>
 <body>
-    <h1>pridavanie test1</h1>
+    <h1>pridavanie test 1</h1>
 
    <form action="../app/controllers/ad.php" enctype="multipart/form-data" method="POST">
         <input type="hidden" name="table" value="adds">

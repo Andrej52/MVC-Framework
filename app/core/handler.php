@@ -1,10 +1,11 @@
 <?php
 class Handler
 {
-    protected function view($path,$view)
+    // treba dokodit to aby sa rewetla URL pocas requeire
+    protected function view($view)
     {
         $fallbackViewFileName = dirname(__DIR__,1)."/views/404.php";
-
+        $path = dirname(__DIR__,1) ."/views/";
         if (!is_dir($path."")) {
             $viewFileName =$path."{$view}.php";
         }
@@ -15,7 +16,8 @@ class Handler
         
         if (file_exists($viewFileName)) 
         {
-            require $viewFileName;
+ 
+           require $viewFileName;
         }
         else
         {

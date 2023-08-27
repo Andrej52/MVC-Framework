@@ -24,6 +24,7 @@ class App extends PageController
         // Subpage
         if(method_exists($PageController , $viewname)) {   
           $_SERVER['view_path']=$urlPath;
+          
           if (!empty($urlError)) 
           {
           $urlparams=explode("=",$urlError);

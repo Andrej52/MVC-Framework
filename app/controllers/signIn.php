@@ -1,6 +1,6 @@
 <?php
 if (isset($_POST)) {
-    include_once "../models/user.php";
+    include_once dirname(__DIR__,1)."/models/user.php";
 
     $user = new User;
     $user->username = stripslashes(strtolower($_POST['username']));

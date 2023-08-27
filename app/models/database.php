@@ -1,6 +1,6 @@
 <?php
 // the only thing u need to do if u want just simply LogIN Register or Add/delete/edit topics is 
-// adding  ediding the parameters of  database e.g(name,password,username)
+// adding/ediding the parameters of  database e.g(name,password,username)
 // database model's PURPOSE is ONLY for database adding not for uploading files into the server !!
 
 class Database {
@@ -36,12 +36,11 @@ class Database {
         $this->rows=join(",",$this->rows);
     }
 
-
-    // function which is getting all data from specific table 
     public function getData($tablename)
     {
         $this->sql =("SELECT * from $tablename");
         $this->SubmitQuery($this->sql);
+
         try {
             if ($this->sql_result->num_rows > 0 ) {
                 for ($i=0; $i < $this->sql_result->num_rows; $i++) { 
@@ -53,18 +52,17 @@ class Database {
         }
     }
 
-
     public function SubmitQuery($sql)
     {
         if (!empty(trim($sql))) { 
             $sqlAction = substr($sql, 0, 6);
             try {
                 $stmt = $this->conn->prepare($sql);
-                if($sqlAction === "INSERT" || $sqlAction === "UPDATE" ||$sqlAction === "SELECT")
+                if($sqlAction === "INSERT" || $sqlAction === "UPDATE" || $sqlAction === "SELECT")
                 {
                     if ($this->prep !== null) 
                     {
-                       $stmt->bind_param($this->prep ,...$this->values);
+                       $stmt->bind_param($this->prep, ...$this->values);
                     }
                     $stmt->execute();
                     $this->sql_result= $stmt->get_result();

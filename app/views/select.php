@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script defer src="/OOP/public/assets/select.js"></script>
+    <link rel="stylesheet" href="assets/css/normalize.css">
+    <link rel="stylesheet" href="assets/css/test.css">
+    <script defer src="js/scripts.js"></script>
+    <script defer src="assets/js/http.js"></script>
     <title>Select</title>
 </head>
 <nav>
@@ -17,7 +20,7 @@
         <?php  if(isset($_SESSION['username'])) echo '<a href="?User=logout" class="logout-btn">logout</a>'; ?>
     </li>
     <li>
-        <?php echo "<div>prihlaseny ako: {$_SESSION['username']}</div>";?>
+        <?php  if(isset($_SESSION['username'])) echo "<div>prihlaseny ako: {$_SESSION['username']}</div>";?>
     </li>
 </nav>
 <body>
@@ -27,7 +30,7 @@
         <option value="DESC">Price to highest</option>
         <option value="DATE">Add Date</option>
     </select> 
-    <p id="demo"></p>
+    <p id="demo">test paragraph</p>
 </body>
 
 </html>

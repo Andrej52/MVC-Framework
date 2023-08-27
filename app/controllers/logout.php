@@ -1,5 +1,6 @@
 <?php
-include_once "../models/user.php";
+include_once dirname(__DIR__,1)."/models/user.php";
+
 $user = new User;
 
 if ($user->signOut()) {

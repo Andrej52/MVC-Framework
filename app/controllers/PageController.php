@@ -5,22 +5,42 @@ class PageController  extends Handler
 {
     function home()
     {
-
-        $this->view($_SERVER['view_path'],"home");
+        $this->view("home");
     }
 
     function show()
     {
-        $this->view($_SERVER['view_path'],"show");
+        $this->view("show");
     }
     function error404()
     {
-        $this->view(dirname(__DIR__,1)."/views/","404");
+
+        $this->view("404");
     }
 
-    function dsa()
+    function register()
     {
-        $this->view($_SERVER['view_path'],"dsa");
+        $this->view("register");
+    }
+
+    function login()
+    {
+        $this->view("login");
+    }
+
+    function add()
+    {
+        $this->view("add");
+    }
+
+    function add2()
+    {
+        $this->view("add2");
+    }
+
+    function select()
+    {
+        $this->view("select");
     }
 
 }

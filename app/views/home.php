@@ -11,9 +11,8 @@
     <link rel="icon" href="">
     <title>home</title>
 </head>
-<?php $topic=new Topic;
-      $gallery=new Gallery;
-?>
+
+
 <header>
     
 </header>
@@ -40,10 +39,6 @@
        <p> nav includes register if you are not Logged IN or possiblity to login if u have conected the database</p>
        <p>Database  structure is mentioned in database Class model</p> 
     </section>
-    <?php 
-     //$topic->display("adds");        
-     //$gallery->show("galleries");
-    ?>
 
 </body>
 </html>

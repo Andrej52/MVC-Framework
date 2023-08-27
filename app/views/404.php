@@ -13,6 +13,7 @@
 <h1>Stránka nenajdená alebo neexistuje </h1>
 <h2> chyba 404</h2>
 <h2>Zadali ste nesprávnu adresu alebo adresa nie je prístupná</h2>
+
 <p>Kliknutím na  tlačidlo <a href="home">Home</a> sa vratite na domovskú obrazovku </p>
 </div>
 </body>
