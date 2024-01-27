@@ -10,15 +10,16 @@ NOTE: make your own HTML to suit onto your webpage
                 <a href="login">login</a>    ';
     else
         {
-            echo '  <a href="../app/controllers/interactions.php?action=Logout">Logout</a>';
+            echo '<button id="logout"  onclick="get(logout)">logout</button>';
             echo "  <div>prihlaseny ako: {$_SESSION['username']}</div>";
             switch ($_SESSION['role']) {
                 case 'member':
                     echo ' 
-                    <a href="add_topics/add">add-topic</a>
-                    <a href="add_topics/add2">add_gallery</a>
+                    <a href="add_topics/add_topic">add-topic</a>
+                    <a href="add_topics/add_gal">add_gallery</a>
                     <a href="select">select</a>
                     ';
+                    
                     break;
                 case 'user':
                     echo ' <a href="select">select</a>';
@@ -28,5 +29,5 @@ NOTE: make your own HTML to suit onto your webpage
             }
         }
        
-?>
+    ?>
     </ul>
