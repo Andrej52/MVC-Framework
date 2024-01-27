@@ -28,14 +28,14 @@ class PageController  extends Handler
         $this->view("login");
     }
 
-    function add()
+    function add_topic()
     {
-        $this->view("add");
+        $this->view("add_topic");
     }
 
-    function add2()
+    function add_gal()
     {
-        $this->view("add2");
+        $this->view("add_gal");
     }
 
     function select()
