@@ -4,14 +4,14 @@
 // database model's PURPOSE is ONLY for database adding not for uploading files into the server !!
 
 class Database {
-    private $DB_name="test";        // database name on server
+    private $DB_name="framework";        // database name on server
     private $DB_host="localhost";  // database url 
     private $DB_user="root";      // database username
     private $DB_pwd="";          // database password for  an access
     private $conn;              
     protected $sql,$sql_result,$prep,$vals,$values,$rows,$tablename;
     public $data;
-
+    protected $tableArr = array();
     //constructor 
     
     public function __construct()
@@ -24,6 +24,30 @@ class Database {
         else{
             return false;
         }
+    }
+
+    // destructor
+    public function __destruct()
+    {
+            unset($this->conn);
+    }
+
+    // gets tablenames in array
+    private function getTableNames()
+    {
+        $sql = "SHOW TABLES;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $this->tableArr =  $stmt->get_result();
+    }
+
+    // gets count of cols in table
+    public function getTableColsCount($tablename)
+    {
+        $sqlQuery = "SELECT count(*) FROM information_schema.columns WHERE table_name = $tablename;";
+        $this->SubmitQuery($sqlQuery);
+        $count = $this->sql_result[0] - 1;
+        return $count;
     }
 
     private function prepareData($post)
@@ -88,13 +112,12 @@ class Database {
         {
             return false;
         }
-        
     }
 
     public function edit($post,$id)
     {
         $this->prepareData($post);
-        $this->sql =("UPDATE  $this->tablename SET $this->rows=$this->vals  WHERE id = $id ");
+        $this->sql =("UPDATE  $this->tablename SET $this->rows = $this->vals  WHERE id = ? ");
         $this->prep="s";
         if ($this->SubmitQuery($this->sql)) {
             return true;
