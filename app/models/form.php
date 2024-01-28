@@ -13,10 +13,11 @@ class Form extends Database
 
     private function GetType()
     {
+        
         for ($i=0; $i <count($type) ; $i++) { 
             # code...
         }
-        return $type
+        return $type;
     }
 
     public function createFormByTable($tableName, $controller)
