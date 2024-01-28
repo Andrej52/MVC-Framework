@@ -10,18 +10,9 @@
     <title>Add</title>
 </head>
 <body>
-    <h1>pridavanie test 2 </h1>
-    <form action="../app/controllers/topic_add.php" enctype="multipart/form-data" method="post">
-        <input type="hidden" name="table" value="galleries">
-        <input type="text" placeholder="text1" name="header">
-        <textarea name="desc" cols="30" rows="10"></textarea>
-        <input type="file" accept="image/*"    name="img[]" multiple >
-        <!--
-            multiple document input
-        <input type="file" accept="doc/*"    name="files[]" multiple  >
-        -->
-        <input type="submit" value="upload">
-    </form>
+    <h1>pridavanie galerie </h1>
+    <?php createGalleryForm(); ?>
+    
     <div class="output-images">
         <div class="uploaded-img">
             <img src="" alt="obrazok">

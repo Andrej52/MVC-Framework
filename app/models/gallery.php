@@ -7,11 +7,12 @@
 class Gallery extends Topic
 {
     private $topic;
+
     public function __construct()
     {
         $this->topic= new Topic;
     }
-
+    
     public function add($post)
     {
         $this->topic->add($post);
@@ -39,4 +40,6 @@ class Gallery extends Topic
     {
         $this->topic->management($tablename);
     }
+
+
 }

@@ -46,10 +46,13 @@ class Topic extends Database
         }
       
     }
+ 
+
     public function add($post)
     {
         $this->db->add($post);
     }
+ 
     public function management($tablename)
     {
         $this->databaseData($tablename);  
