@@ -19,6 +19,7 @@ class Database {
         // setting up connection with database
         $conn = new mysqli($this->DB_host,$this->DB_user,$this->DB_pwd,$this->DB_name);
         if (!$conn->connect_error) {
+            $this->getTableNames();
             return $this->conn = $conn;
         }
         else{
@@ -103,42 +104,33 @@ class Database {
     {
         $this->prepareData($post);
         $this->sql=("INSERT INTO $this->tablename($this->rows)  VALUES($this->vals)");
-
         if ($this->SubmitQuery($this->sql)) 
-        {
             return true;
-        }
         else
-        {
             return false;
-        }
+        
     }
 
     public function edit($post,$id)
     {
         $this->prepareData($post);
         $this->sql =("UPDATE  $this->tablename SET $this->rows = $this->vals  WHERE id = ? ");
-        $this->prep="s";
-        if ($this->SubmitQuery($this->sql)) {
+        $this->prep="s";  
+        $this->values = $id;
+        if ($this->SubmitQuery($this->sql)) 
             return true;
-        }
-        else
-        {
+        else 
             return false;
-        }
     }
 
     public function remove($tablename,$id)
     {
         $this->sql =("DELETE * FROM $tablename WHERE id = ?");
         $this->prep="s";
-        $this->values=$id;
-        if ($this->SubmitQuery($this->sql)) {
+        $this->values = $id;
+        if ($this->SubmitQuery($this->sql)) 
             return true;
-        }
-        else
-        {
+        else 
             return false;
-        }
     }   
 }
