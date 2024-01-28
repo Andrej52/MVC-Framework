@@ -51,6 +51,13 @@ class Database {
         return $count;
     }
 
+    public function getTableColType($tablename)
+    {
+        $sqlQuery = "SELECT DATA_TYPE FROM information_schema.columns WHERE table_name = $tablename;";
+        $this->SubmitQuery($sqlQuery);
+        return $this->sql_result;
+    }
+
     private function prepareData($post)
     {   
         $this->tablename = array_shift($post);              // separing targetning tablename
