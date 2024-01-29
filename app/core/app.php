@@ -80,7 +80,7 @@ class App extends PageController
               $viename = "error404";
             }
            }
-           $path = dirname(__DIR__,1)."/views/";
+           $path = dirname(__DIR__, 1)."/views/";
            return ["url"=>[$viename,$path], "params" => $urlParams];
           }
         }

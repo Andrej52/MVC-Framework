@@ -42,7 +42,7 @@ class User extends Database
             {
                 session_start();
                 $_SESSION['username'] =$row['username'];
-                $_SESSION['id'] =$row['ID'];
+                $_SESSION['role'] = $row['role'];
             }
                 $_SESSION["loggedin"] = TRUE;
 
