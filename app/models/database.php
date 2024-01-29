@@ -4,14 +4,14 @@
 // database model's PURPOSE is ONLY for database adding not for uploading files into the server !!
 
 class Database {
-    private $DB_name="framework";        // database name on server
-    private $DB_host="localhost";  // database url 
-    private $DB_user="root";      // database username
-    private $DB_pwd="";          // database password for  an access
+    private $DB_name = "framework";        // database name on server
+    private $DB_host = "localhost";  // database url 
+    private $DB_user = "root";      // database username
+    private $DB_pwd = "";          // database password for  an access
     private $conn;              
     protected $sql,$sql_result,$prep,$vals,$values,$rows,$tablename;
     public $data;
-    protected $tableArr = array();
+    protected $tableArr;
     //constructor 
     
     public function __construct()
@@ -19,8 +19,8 @@ class Database {
         // setting up connection with database
         $conn = new mysqli($this->DB_host,$this->DB_user,$this->DB_pwd,$this->DB_name);
         if (!$conn->connect_error) {
-            $this->getTableNames();
-            return $this->conn = $conn;
+            $this->conn = $conn;
+            return true;
         }
         else{
             return false;
@@ -34,13 +34,15 @@ class Database {
     }
 
     // gets tablenames in array
-    private function getTableNames()
+    protected function getTableNames()
     {
-        $sql = "SHOW TABLES;";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        $this->tableArr =  $stmt->get_result();
-    }
+        $query = $this->conn->query("SHOW TABLES FROM $this->DB_name");
+        $data = mysqli_fetch_array($query);
+        for($i=0; $i < count($data) ; $i++) { 
+            array_push($this->tableArr, $data[0]);
+        }
+        
+     }
 
     // gets count of cols in table
     public function getTableColsCount($tablename)
