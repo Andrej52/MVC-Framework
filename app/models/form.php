@@ -5,7 +5,8 @@ class Form extends Database
     private $Colname;
     private $type = ["text","password","date","number","checkbox","file",];
     private $acceptable = ["img"=>[".png","jpg","jpeg","image/*"], "file"=>[".doc",".docx",".pdf",".xml","doc/*"]]; 
-    private $jsonFilePath = 'path/to/your/';    
+    private $jsonFilePath = '/data/';
+    private $filePath = 'path/to/your/';    
 
     public function __construct() {
         $this->db = new Database();
@@ -81,18 +82,25 @@ class Form extends Database
     // generate FORM via JSON
     public function createFormbyJSON($filename,$formname,$controller,$method)
     {
-        $jsonData = file_get_contents($this->jsonFilePath.$filename);
-        $form = $jsonData['formname']; 
+     //   var_dump(__DIR__);
+        $jsonData = file_get_contents(dirname(__DIR__,1).$this->jsonFilePath.$filename);
+        $jsonDecodedData = json_decode($jsonData,true); // decodes data from forms.json ,  accesible by formname  
+        $form = $jsonDecodedData[$formname]; // form inputs metadata 
+        print_r($form);
         echo'<form action="../app/controllers/'.$controller.'" enctype="multipart/form-data" method="'.$method.'">';
-        echo '<input type="hidden" name="table" value="'.$tableName.'">';
-        for ($i=0; $i < $colsCount; $i++) { 
-            echo '<input type="'.$form['type'].'" name="'.$form['name'].'" value="'.$form['value'].'" placeholder="'.$form['placeholder'].'">';
+        echo '<input type="hidden" name="table" value="'.$formname.'">';
+        for ($i=0; $i < count($form); $i++) { // iterate over all inputs
+            foreach ($form[$i] as $key => $value) { // iterate over all inputs's metada and insert
+                echo '<input type="'.$value['type'].'" name="'.$value['name'].'" value="'.$value['value'].'" placeholder="'.$value['placeholder'].'">';
+            }
         }
         echo '</form>';
+        
     }
 
     // generate FORM via XML
     /*
+    // TODO
     public function createFormByXML($filename,$controller,$method)
     {
         echo'<form action="../app/controllers/'.$controller.'" enctype="multipart/form-data" method="'.$method.'">';

@@ -10,7 +10,7 @@ class Database {
     private $DB_pwd = "";          // database password for  an access
     private $conn;              
     protected $sql,$sql_result,$prep,$vals,$values; //SQL things
-    protected $tableArr,$rows,$tablename;
+    protected $tableArr = array(),$rows,$tablename;
     public $data;
     //constructor 
     
@@ -38,10 +38,13 @@ class Database {
     protected function getTableNames()
     {
         $query = $this->conn->query("SHOW TABLES FROM $this->DB_name");
-        $data = mysqli_fetch_array($query);
-        for($i=0; $i < count($data) ; $i++) { 
-            array_push($this->tableArr, $data[0]);
+        while ($data = mysqli_fetch_array($query)) {
+            array_push($this->tableArr, $data['Tables_in_'.$this->DB_name]);
+            if (count($this->tableArr) < 1 ) {
+                return false;
+            } 
         }
+        return true;
      }
 
     // get count of cols in table

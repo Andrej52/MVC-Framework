@@ -19,6 +19,7 @@
 <nav>
     <li>
     <?php include_once "../app/components/adminpanel.php" ?>
+    <?php include_once "../app/models/form.php" ?>
     </li>
 </nav>
 <body>
@@ -28,6 +29,9 @@
        <p> nav includes register if you are not Logged IN or possiblity to login if u have conected the database</p>
        <p>Database  structure is mentioned in database Class model</p> 
     </section>
-
+    <?php
+    $form = new Form();
+    $form->createFormbyJSON('forms.json','login','daco.php','post')
+    ?>
 </body>
 </html>
