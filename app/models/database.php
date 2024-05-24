@@ -9,9 +9,9 @@ class Database {
     private $DB_user = "root";      // database username
     private $DB_pwd = "";          // database password for  an access
     private $conn;              
-    protected $sql,$sql_result,$prep,$vals,$values,$rows,$tablename;
+    protected $sql,$sql_result,$prep,$vals,$values; //SQL things
+    protected $tableArr,$rows,$tablename;
     public $data;
-    protected $tableArr;
     //constructor 
     
     public function __construct()
@@ -20,6 +20,7 @@ class Database {
         $conn = new mysqli($this->DB_host,$this->DB_user,$this->DB_pwd,$this->DB_name);
         if (!$conn->connect_error) {
             $this->conn = $conn;
+            $this->getTableNames();
             return true;
         }
         else{
@@ -41,10 +42,9 @@ class Database {
         for($i=0; $i < count($data) ; $i++) { 
             array_push($this->tableArr, $data[0]);
         }
-        
      }
 
-    // gets count of cols in table
+    // get count of cols in table
     public function getTableColsCount($tablename)
     {
         $sqlQuery = "SELECT count(*) FROM information_schema.columns WHERE table_name = $tablename;";
@@ -53,13 +53,15 @@ class Database {
         return $count;
     }
 
-    public function getTableColType($tablename)
+    // get specific tablebanes  n-th Type
+    public function getTableColType($tablename,$arrNum)
     {
-        $sqlQuery = "SELECT DATA_TYPE FROM information_schema.columns WHERE table_name = $tablename;";
+        $sqlQuery = "SELECT DATA_TYPE FROM information_schema.columns WHERE table_name = $tablename LIMIT 1 OFFSET ($arrNum - 1) ;";
         $this->SubmitQuery($sqlQuery);
         return $this->sql_result;
     }
 
+    // SQL preparation
     private function prepareData($post)
     {   
         $this->tablename = array_shift($post);              // separing targetning tablename
@@ -70,6 +72,7 @@ class Database {
         $this->rows=join(",",$this->rows);
     }
 
+    //just data getter
     public function getData($tablename)
     {
         $this->sql =("SELECT * from $tablename");
@@ -86,6 +89,7 @@ class Database {
         }
     }
 
+    //send query
     public function SubmitQuery($sql)
     {
         if (!empty(trim($sql))) { 
@@ -109,6 +113,8 @@ class Database {
         }
     }
     
+
+    // add record
     public function add($post)
     {
         $this->prepareData($post);
@@ -120,6 +126,7 @@ class Database {
         
     }
 
+    // update record
     public function edit($post,$id)
     {
         $this->prepareData($post);
@@ -132,6 +139,7 @@ class Database {
             return false;
     }
 
+    // delete record
     public function remove($tablename,$id)
     {
         $this->sql =("DELETE * FROM $tablename WHERE id = ?");

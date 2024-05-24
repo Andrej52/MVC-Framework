@@ -12,9 +12,9 @@ class Form extends Database
     }
 
 
-    private function getColType($tableName,$arrNum)
+    private function getColType($tablename,$arrNum)
     {
-        $type = getTableColType($tablename,$arrNum);
+        $type = $this->getTableColType($tablename,$arrNum);
         // bitmap of each statement
         $switchcases = [
             (($type == "text") || ($type == "varchar") || ($type == "tinytext") || ($type == "smalltext") || ($type == "bigtext")) ? 1 : 0, // TEXT
@@ -24,7 +24,15 @@ class Form extends Database
             (($type == "int") || ($type == "boolean") || ($type == "bit")) ? 1 : 0, // CHECKBOX
             (($type == "varchar") || ($type == "longblob") || ($type == "blob") || ($type == "tinyblob") || ($type == "mediumblob")) ? 1 : 0 // IMAGE, FILE
         ];
+        var_dump($switchcases);
+        /*
         
+        for ($i=0; $i <5 ; $i++) { 
+            if ($switchcases[$i] && !$switchcases[1] && !$switchcases[2] && !$switchcases[3] && !$switchcases[4] && !$switchcases[5]) {
+                return $type[$i]; 
+            }  
+        }
+
         if ($switchcases[0] && !$switchcases[1] && !$switchcases[2] && !$switchcases[3] && !$switchcases[4] && !$switchcases[5]) {
             return $type[0]; // text
         }
@@ -47,6 +55,8 @@ class Form extends Database
         {
             return null;
         }
+        
+        */
 
     }
 
@@ -56,7 +66,7 @@ class Form extends Database
         $colsCount = $this->db->getTableColsCount($tableName);
         echo'<form action="../app/controllers/'.$controller.'" enctype="multipart/form-data" method="'.$method.'">';
         echo '<input type="hidden" name="table" value="'.$tableName.'">';
-        for ($i=0; $i < ; $i++) { 
+        for ($i=0; $i < $colsCount; $i++) { 
             echo '<input type="hidden" name="table" value="'.$tableName.'">';
         }
         echo '</form>';
