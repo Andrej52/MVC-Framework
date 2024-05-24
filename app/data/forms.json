@@ -1,0 +1,46 @@
+{
+    "login":[
+        {
+            "input1":{
+                "name": "email",
+                "type": "text",
+                "value": "",
+                "placeholder":"email" 
+            },
+            "input2":{
+                "name": "subject",
+                "type": "text",
+                "value": "",
+                "placeholder":"subject"
+            },
+            "input3":{
+                "name": "weight",
+                "type": "number",
+                "value": "",
+                "placeholder":"number"
+            }
+        }
+    ],
+    "blog":[
+        {
+            "input1":{
+                "name": "email",
+                "type": "text",
+                "value": "none",
+                "placeholder":"none" 
+            },
+            "input2":{
+                "name": "email",
+                "type": "text",
+                "value": "none",
+                "placeholder":"none"
+            },
+            "input3":{
+                "name": "weight",
+                "type": "number",
+                "value": "none",
+                "placeholder":"none"
+            }
+        }
+    ]
+}
