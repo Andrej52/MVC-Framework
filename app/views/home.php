@@ -31,7 +31,6 @@
     </section>
     <?php
     $form = new Form();
-    $form->createFormbyJSON('forms.json','login','daco.php','post')
     ?>
 </body>
 </html>

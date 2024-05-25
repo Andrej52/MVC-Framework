@@ -17,6 +17,7 @@ class Form extends Database
     {
         $type = $this->getTableColType($tablename,$arrNum);
         // bitmap of each statement
+        // each bit represents one formula from terms 
         $switchcases = [
             (($type == "text") || ($type == "varchar") || ($type == "tinytext") || ($type == "smalltext") || ($type == "bigtext")) ? 1 : 0, // TEXT
             (($type == "text") || ($type == "varchar")) ? 1 : 0, // PASSWORD
@@ -37,40 +38,13 @@ class Form extends Database
                 print_r($this->type[$i]);
             }
         }
-
-        /*
-            same shit ale inak        
-            if ($switchcases[0] && !$switchcases[1] && !$switchcases[2] && !$switchcases[3] && !$switchcases[4] && !$switchcases[5]) {
-                return $type[0]; // text
-            }
-            else if (!$switchcases[0] && $switchcases[1] && !$switchcases[2] && !$switchcases[3] && !$switchcases[4] && !$switchcases[5]) {
-                return $type[1]; // password
-            }
-            else if (!$switchcases[0] && !$switchcases[1] && $switchcases[2] && !$switchcases[3] && !$switchcases[4] && !$switchcases[5]) {
-                return $type[2]; // date
-            }
-            else if (!$switchcases[0] && !$switchcases[1] && !$switchcases[2] && $switchcases[3] && !$switchcases[4] && !$switchcases[5]) {
-                return $type[3]; // number
-            }
-            else if (!$switchcases[0] && !$switchcases[1] && !$switchcases[2] && !$switchcases[3] && $switchcases[4] && !$switchcases[5]) {
-                return $type[4]; // checkbox
-            }
-            else if (!$switchcases[0] && !$switchcases[1] && !$switchcases[2] && !$switchcases[3] && !$switchcases[4] && $switchcases[5]) {
-                return $type[5]; // file
-            }
-            else
-            {
-                return null;
-            }
-            
-        */
-
     }
 
     // generate FORM with input fields
     public function createFormByTable($tableName, $controller,$method)
     {
         $colsCount = $this->db->getTableColsCount($tableName);
+
         echo'<form action="../app/controllers/'.$controller.'" enctype="multipart/form-data" method="'.$method.'">';
         echo '<input type="hidden" name="table" value="'.$tableName.'">';
         for ($i=0; $i < $colsCount; $i++) { 
@@ -86,7 +60,7 @@ class Form extends Database
         $jsonData = file_get_contents(dirname(__DIR__,1).$this->jsonFilePath.$filename);
         $jsonDecodedData = json_decode($jsonData,true); // decodes data from forms.json ,  accesible by formname  
         $form = $jsonDecodedData[$formname]; // form inputs metadata 
-        print_r($form);
+
         echo'<form action="../app/controllers/'.$controller.'" enctype="multipart/form-data" method="'.$method.'">';
         echo '<input type="hidden" name="table" value="'.$formname.'">';
         for ($i=0; $i < count($form); $i++) { // iterate over all inputs
@@ -95,7 +69,7 @@ class Form extends Database
             }
         }
         echo '</form>';
-        
+        //echo '<script>alert("this form has been generated from JSON")</script>'; 
     }
 
     // generate FORM via XML
