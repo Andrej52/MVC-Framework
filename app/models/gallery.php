@@ -13,16 +13,17 @@ class Gallery extends Topic
         $this->topic= new Topic;
     }
     
+    // adds gallery 
     public function add($post)
     {
         $this->topic->add($post);
     }
 
+    // generate gallery item for each gallery
     public function show($tablename)
     {
         $this->topic->databaseData($tablename);
         if ($this->topic->data != null) {
-            // $row is an variable which hold the value of specific row 
             foreach($this->topic->data as $key => $row)
             {
                 echo "
@@ -36,10 +37,10 @@ class Gallery extends Topic
         }
     }
 
+    // shows table of action to be edited or reviewed
     public function manage($tablename)
     {
         $this->topic->management($tablename);
     }
-
 
 }

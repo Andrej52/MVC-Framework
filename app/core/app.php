@@ -1,5 +1,9 @@
 <?php
   require_once __DIR__."/../controllers/PageController.php";
+  /*
+    DONT remember what it specificly does but somehow it managed to work so well,
+    should do that it runs app and then manages subpaging so....
+  */
 class App extends PageController
 {   
 
@@ -40,6 +44,7 @@ class App extends PageController
      call_user_func_array([ $PageController , $viewname],$params);
     }
 
+    // return url splitted by every path 
     protected function splitURL()
     {
       $path=dirname(__DIR__,1)."/views/";

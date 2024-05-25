@@ -4,16 +4,17 @@
 // database model's PURPOSE is ONLY for database adding not for uploading files into the server !!
 
 class Database {
-    private $DB_name = "framework";        // database name on server
-    private $DB_host = "localhost";  // database url 
-    private $DB_user = "root";      // database username
-    private $DB_pwd = "";          // database password for  an access
-    private $conn;              
+    private $DB_name = "framework";     // database name on server
+    private $DB_host = "localhost";     // database url 
+    private $DB_user = "root";          // database username
+    private $DB_pwd = "";               // database password for  an access
+    private $conn;                      //conection of database          
     protected $sql,$sql_result,$prep,$vals,$values; //SQL things
-    protected $tableArr = array(),$rows,$tablename;
+    protected $tableArr = array();      // List of all tables inside Database
+    protected $rows,$tablename;
     public $data;
+
     //constructor 
-    
     public function __construct()
     {
         // setting up connection with database
@@ -34,17 +35,22 @@ class Database {
             unset($this->conn);
     }
 
-    // gets tablenames in array
+    // gets tablenames in array 
     protected function getTableNames()
     {
         $query = $this->conn->query("SHOW TABLES FROM $this->DB_name");
+        $tablesCount = $this->conn->query("SELECT count(*) AS TOTALNUMBEROFTABLES
+        -> FROM $this->DB_name");
         while ($data = mysqli_fetch_array($query)) {
             array_push($this->tableArr, $data['Tables_in_'.$this->DB_name]);
-            if (count($this->tableArr) < 1 ) {
-                return false;
+            if (count($this->tableArr) < 1) {
+                return false; // if query didnt passed
             } 
         }
-        return true;
+        if (count($this->tableArr) != $tablesCount) {
+            return false; // if not all appended into Array
+        }
+        return true; // if success 
      }
 
     // get count of cols in table

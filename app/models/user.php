@@ -2,7 +2,7 @@
        include_once "database.php";
 class User extends Database
 {   
-    public $name, $username,$password,$email;
+    protected $name, $username,$password,$email;
     public $result;
     private $db;
     
@@ -12,24 +12,22 @@ class User extends Database
         return $this->db;
     }
     
+    // registration
     public function signUp()
     {
-            if ($this->userExist()) {
-                return false;
-            }
+            if ($this->userExist()) return false;
             $_POST['password']=$this->password;
-            $this->db->add($_POST);
-            if ($this->signIn()) {
-                echo "userRegistered";
-                return true;
-            }
-            else
+
+            if (!$this->db->add($_POST))  // tries to add user into DB
             {
-                return false;
+                return false; // add not succes 
             }
-      
+            $this->signIn(); // tries login user while registered
+            echo "user Registered";
+            return true; 
     }
 
+    // Login
     public function signIn()
     {
         $sql = "SELECT * from  users where username = ? AND password = ? ";
@@ -54,6 +52,7 @@ class User extends Database
         }
     }
 
+    // Logout User
     public function signOut()
     {
         session_start();
@@ -65,6 +64,7 @@ class User extends Database
             return false;
     }
 
+    // return if user is already registred
     private function userExist()
     {
         $sql = "SELECT * from  users where email=?";

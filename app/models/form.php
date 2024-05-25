@@ -3,16 +3,16 @@ class Form extends Database
 {
     private $db;
     private $Colname;
-    private $type = ["text","password","date","number","checkbox","file",];
-    private $acceptable = ["img"=>[".png","jpg","jpeg","image/*"], "file"=>[".doc",".docx",".pdf",".xml","doc/*"]]; 
-    private $jsonFilePath = '/data/';
-    private $filePath = 'path/to/your/';    
+    private $type = ["text","password","date","number","checkbox","file",]; // array of types for FORM inputs
+    private $acceptable = ["img"=>[".png","jpg","jpeg","image/*"], "file"=>[".doc",".docx",".pdf",".xml","doc/*"]]; // associative array of acceptable extenstions
+    private $jsonFilePath = '/data/';    // add your own path
+    private $filePath = 'path/to/your/';    // add your own path    
 
     public function __construct() {
         $this->db = new Database();
     }
 
-
+    // return column type of specific column in table
     private function getColType($tablename,$arrNum)
     {
         $type = $this->getTableColType($tablename,$arrNum);
