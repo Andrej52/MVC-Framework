@@ -38,9 +38,12 @@ class Database {
     // gets tablenames in array 
     protected function getTableNames()
     {
+        $sql= "SELECT COUNT(*) AS table_count
+        FROM information_schema.tables WHERE table_schema = '$this->DB_name'";
+
+        $tablesCount= (int) $this->conn->query($sql)->fetch_assoc()['table_count'];
         $query = $this->conn->query("SHOW TABLES FROM $this->DB_name");
-        $tablesCount = $this->conn->query("SELECT count(*) AS TOTALNUMBEROFTABLES
-        -> FROM $this->DB_name");
+
         while ($data = mysqli_fetch_array($query)) {
             array_push($this->tableArr, $data['Tables_in_'.$this->DB_name]);
             if (count($this->tableArr) < 1) {
@@ -111,6 +114,19 @@ class Database {
                     {
                        $stmt->bind_param($this->prep, ...$this->values);
                     }
+                    /*
+                    possible version :
+                    if ($this->prep !== null) 
+                    {
+                       $stmt->bind_param($this->prep, ...$this->values);
+                        $stmt->execute();
+                        $this->sql_result= $stmt->get_result();
+                    }
+                    else
+                    {
+                        $this->sql_result = $this->conn->query($sql)->fetch_assoc();
+                    }
+                    */ 
                     $stmt->execute();
                     $this->sql_result= $stmt->get_result();
                 }
