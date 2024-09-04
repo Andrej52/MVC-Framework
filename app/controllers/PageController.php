@@ -12,6 +12,7 @@ class PageController  extends Handler
     {
         $this->view("show");
     }
+
     function error404()
     {
 
@@ -42,5 +43,14 @@ class PageController  extends Handler
     {
         $this->view("select");
     }
+    
 
+    /*
+    TEST PURPOSE ONLY
+    */
+    function itemseshop()
+    {
+        $this->view("itemseshop");
+    }
+    
 }

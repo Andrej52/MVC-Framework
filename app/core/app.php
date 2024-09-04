@@ -44,7 +44,10 @@ class App extends PageController
      call_user_func_array([ $PageController , $viewname],$params);
     }
 
-    // return url splitted by every path 
+    /**
+     *  Split url on parts
+     * @return array viewname, path
+     * */ 
     protected function splitURL()
     {
       $path=dirname(__DIR__,1)."/views/";

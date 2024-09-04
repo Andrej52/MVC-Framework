@@ -5,7 +5,7 @@ if (isset($_POST)) {
     $user = new User;
     $user->username = stripslashes(strtolower($_POST['username']));
     $user->password = stripslashes($_POST['password']);
-    $user->password = hash("sha1", $user->password . $user->username);
+    $user->password = hash("sha1", $user->password.$user->username);
     
     if (empty($user->username) && empty($user->password)) {
         http_response_code(400);

@@ -22,13 +22,11 @@ class Topic extends Database
     {
         $this->db->getData($tablename);
         $this->data= $this->db->data;
-        return $this->data;
     }
     
     public function display($tablename)
     {
         $this->databaseData($tablename);
-
         if ($this->data != null) 
         {
             foreach($this->data as $key => $row)
@@ -47,12 +45,17 @@ class Topic extends Database
       
     }
  
-
+    // adds topic
+    // nebude potrebne
     public function add($post)
     {
         $this->db->add($post);
     }
- 
+    
+    /**
+     * Generate HTML table with management option's
+     * @param string $tablename  Table that has to be generated
+     */
     public function management($tablename)
     {
         $this->databaseData($tablename);  

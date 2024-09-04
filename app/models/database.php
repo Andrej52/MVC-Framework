@@ -32,10 +32,13 @@ class Database {
     // destructor
     public function __destruct()
     {
-            unset($this->conn);
+        unset($this->conn);
     }
 
-    // gets tablenames in array 
+    /**
+     * Extract name of every table in database
+     * @return bool true if database contains atl. 1 table
+     */
     protected function getTableNames()
     {
         $sql= "SELECT COUNT(*) AS table_count
@@ -53,10 +56,15 @@ class Database {
         if (count($this->tableArr) != $tablesCount) {
             return false; // if not all appended into Array
         }
+        
         return true; // if success 
      }
 
-    // get count of cols in table
+    /**
+     * Get count of colmns in TABLE
+     *@param string $tablename Table that has to be proccessed 
+     *@return int count of colmns
+     */
     public function getTableColsCount($tablename)
     {
         $sqlQuery = "SELECT count(*) FROM information_schema.columns WHERE table_name = $tablename;";
@@ -66,6 +74,12 @@ class Database {
     }
 
     // get specific tablebanes  n-th Type
+    /**
+     * Get datatyp of column in Table
+     * @param string $tablename Table that has to be proccessed 
+     * @param int $arrNum colmn position 
+     * @return array 
+     */
     public function getTableColType($tablename,$arrNum)
     {
         $sqlQuery = "SELECT DATA_TYPE FROM information_schema.columns WHERE table_name = $tablename LIMIT 1 OFFSET ($arrNum - 1) ;";
@@ -73,9 +87,15 @@ class Database {
         return $this->sql_result;
     }
 
-    // SQL preparation
+    /**
+     * Prepares data for execution of query, 
+     * Asign prepared data into instance's keys
+     * @param array  $post data array of POST
+     * @return void
+     */
     private function prepareData($post)
     {   
+        if(empty($post)) return false;
         $this->tablename = array_shift($post);              // separing targetning tablename
         $this->rows=array_keys($post);                       // getting array keys  of post
         $this->values=array_values($post);                   // getting array values of post  
@@ -84,7 +104,11 @@ class Database {
         $this->rows=join(",",$this->rows);
     }
 
-    //just data getter
+   /**
+    * Get all data from table
+    *@param string $tablename Table which has to be data queried
+    *@return void
+    */
     public function getData($tablename)
     {
         $this->sql =("SELECT * from $tablename");
@@ -102,48 +126,64 @@ class Database {
     }
 
     //send query
+    /**
+     * check if query is correct and proceeds to execute
+     * @param string $sql SQL query  
+     */
     public function SubmitQuery($sql)
     {
         if (!empty(trim($sql))) { 
-            $sqlAction = substr($sql, 0, 6);
+            $sqlAction = strtoupper(substr(trim($sql), 0, 6)); 
+
             try {
                 $stmt = $this->conn->prepare($sql);
-                if($sqlAction === "INSERT" || $sqlAction === "UPDATE" || $sqlAction === "SELECT")
-                {
-                    if ($this->prep !== null) 
-                    {
-                       $stmt->bind_param($this->prep, ...$this->values);
+    
+                if (in_array($sqlAction, ["INSERT", "UPDATE", "DELETE", "SELECT"])) {
+    
+                    if ($this->prep !== null) {
+                        $stmt->bind_param($this->prep, ...$this->values);
                     }
-                    /*
-                    possible version :
-                    if ($this->prep !== null) 
-                    {
-                       $stmt->bind_param($this->prep, ...$this->values);
-                        $stmt->execute();
-                        $this->sql_result= $stmt->get_result();
-                    }
-                    else
-                    {
-                        $this->sql_result = $this->conn->query($sql)->fetch_assoc();
-                    }
-                    */ 
-                    $stmt->execute();
-                    $this->sql_result= $stmt->get_result();
-                }
-                $stmt->close();
 
-            } catch (PDOException $e) {
-                throw "Error: " . $e->getMessage();
+                    $stmt->execute();
+
+                    if ($sqlAction === "SELECT") {
+                        $this->sql_result = $stmt->get_result();
+                    }
+    
+                    if (in_array($sqlAction, ["INSERT", "UPDATE", "DELETE"])) {
+                        $this->sql_result = $stmt->affected_rows;
+                    }
+                    
+                    $stmt->close();
+                    return true; 
+                }
+                else {
+                    throw new Exception("Unsupported SQL action: $sqlAction" );
+                    return false;
+                }
+                
+            } catch (Exception $e) {
+                throw new Exception("Error executing query: " . $e->getMessage());
+                return false;
             }
+        } else {
+            throw new Exception("SQL query cannot be empty.");
+            return false;
         }
     }
     
+    
 
-    // add record
+    /**
+     * Add record to database 
+     * @param array  $post data array of POST
+     * @return bool true if record  has been sucesfully added
+     */
     public function add($post)
     {
         $this->prepareData($post);
         $this->sql=("INSERT INTO $this->tablename($this->rows)  VALUES($this->vals)");
+        
         if ($this->SubmitQuery($this->sql)) 
             return true;
         else
@@ -151,7 +191,12 @@ class Database {
         
     }
 
-    // update record
+   /**
+     * Update existing record in the database 
+     * @param array $post data array of post data
+     * @param int $id identifcation number of record
+     * @return bool true if record  has been sucesfully changed
+     */
     public function edit($post,$id)
     {
         $this->prepareData($post);
@@ -164,7 +209,12 @@ class Database {
             return false;
     }
 
-    // delete record
+   /**
+     * Delete record from the database 
+     * @param string $tablename name of the table
+     * @param int $id identifcation number of record
+     * @return bool true if record  has been sucesfully removed
+     */
     public function remove($tablename,$id)
     {
         $this->sql =("DELETE * FROM $tablename WHERE id = ?");

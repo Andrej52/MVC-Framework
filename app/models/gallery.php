@@ -14,12 +14,17 @@ class Gallery extends Topic
     }
     
     // adds gallery 
+    // nebude potrebne
     public function add($post)
     {
         $this->topic->add($post);
     }
 
     // generate gallery item for each gallery
+     /**
+     * Generate HTML gallery thumbnail item for each gallery
+     * @param string $tablename  Table that has to be generated
+     */
     public function show($tablename)
     {
         $this->topic->databaseData($tablename);
