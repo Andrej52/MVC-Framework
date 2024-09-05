@@ -21,12 +21,12 @@ class Topic extends Database
     protected function databaseData($tablename)
     {
         $this->db->getData($tablename);
-        $this->data= $this->db->data;
+        $this->data = $this->db->data;
     }
     
     public function display($tablename)
     {
-        $this->databaseData($tablename);
+       $this->databaseData($tablename);
         if ($this->data != null) 
         {
             foreach($this->data as $key => $row)

@@ -12,7 +12,11 @@ class Form extends Database
         $this->db = new Database();
     }
 
-    // return column type of specific column in table
+    /**
+     * Returs column type of specific column in table
+     *@param string $tablename name of table
+     *@param int $arrNum position(INDEX) of column
+     */
     private function getColType($tablename,$arrNum)
     {
         $type = $this->getTableColType($tablename,$arrNum);
@@ -36,11 +40,17 @@ class Form extends Database
             if (($initval >> $i) == $switchcases[$i]  ) {
                 var_dump($switchcases[$i]);
                 print_r($this->type[$i]);
+                return $this->type[$i];
             }
         }
     }
 
-    // generate FORM with input fields
+    /**
+     * Generate Form via database table
+     * @param string $tableName name of table
+     * @param string $controller controller name
+     * @param string $method POST || GET
+     */
     public function createFormByTable($tableName, $controller,$method)
     {
         $colsCount = $this->db->getTableColsCount($tableName);
@@ -53,16 +63,22 @@ class Form extends Database
         echo '</form>';
     }
 
-    // generate FORM via JSON
-    public function createFormbyJSON($filename,$formname,$controller,$method)
+    /**
+     * Generates Form from JSON file
+     * @param string $fileName name of the JSON file eg.: "DATA.json"
+     * @param string $formName name of the form
+     * @param string $controller controller name
+     * @param string $method POST || GET
+     */
+    public function createFormbyJSON($fileName, $formName, $controller, $method)
     {
      //   var_dump(__DIR__);
-        $jsonData = file_get_contents(dirname(__DIR__,1).$this->jsonFilePath.$filename);
-        $jsonDecodedData = json_decode($jsonData,true); // decodes data from forms.json ,  accesible by formname  
-        $form = $jsonDecodedData[$formname]; // form inputs metadata 
+        $jsonData = file_get_contents(dirname(__DIR__,1).$this->jsonFilePath.$fileName);
+        $jsonDecodedData = json_decode($jsonData,true); // decodes data from forms.json ,  accesible by formName  
+        $form = $jsonDecodedData[$formName]; // form inputs metadata 
 
         echo'<form action="../app/controllers/'.$controller.'" enctype="multipart/form-data" method="'.$method.'">';
-        echo '<input type="hidden" name="table" value="'.$formname.'">';
+        echo '<input type="hidden" name="table" value="'.$formName.'">';
         for ($i=0; $i < count($form); $i++) { // iterate over all inputs
             foreach ($form[$i] as $key => $value) { // iterate over all inputs's metada and insert
                 echo '<input type="'.$value['type'].'" name="'.$value['name'].'" value="'.$value['value'].'" placeholder="'.$value['placeholder'].'">';
@@ -75,7 +91,7 @@ class Form extends Database
     // generate FORM via XML
     /*
     // TODO
-    public function createFormByXML($filename,$controller,$method)
+    public function createFormByXML($fileName,$controller,$method)
     {
         echo'<form action="../app/controllers/'.$controller.'" enctype="multipart/form-data" method="'.$method.'">';
         echo '<input type="hidden" name="table" value="'.$tableName.'">';

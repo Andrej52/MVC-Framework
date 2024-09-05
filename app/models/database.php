@@ -125,7 +125,6 @@ class Database {
         }
     }
 
-    //send query
     /**
      * check if query is correct and proceeds to execute
      * @param string $sql SQL query  
@@ -171,8 +170,6 @@ class Database {
             return false;
         }
     }
-    
-    
 
     /**
      * Add record to database 
@@ -225,4 +222,6 @@ class Database {
         else 
             return false;
     }   
+
+
 }

@@ -1,13 +1,13 @@
 <?php
-        include_once "../models/user.php";
+        include_once dirname(__DIR__,1)."/models/user.php";
       
         $user= new User;
         
-        $user->username=strtolower($_POST['username']);
-        $user->password=hash("sha1",$_POST['password'].$user->username);
-        $user->name=$_POST['name'];
-        $user->email=$_POST['email'];
-        if (empty($user->email=$_POST['email'])) {
+        $user->username = strtolower($_POST['username']);
+        $user->password = hash("sha1",$_POST['password'].$user->username);
+        $user->name = $_POST['name'];
+        $user->email = $_POST['email'];
+        if (empty($user->email = $_POST['email'])) {
                 header("Location:".dirname(__DIR__,2)."/public/home");
                 exit();
         }

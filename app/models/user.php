@@ -2,14 +2,29 @@
        include_once "database.php";
 class User extends Database
 {   
-    protected $name, $username,$password,$email;
+    protected $name, $username, $password, $email;
     public $result;
     private $db;
     
     public function __construct()
     {
         $this->db=new Database();
+        $this->clearInstanceData();
         return $this->db;
+    }
+
+    /**
+     * Zeroes all data of instance when is beaing created
+     * @return bool true if all data are empty
+     */
+    private function clearInstanceData()
+    {
+        $this->name = "";
+        $this->username = "";
+        $this->password = "";
+        $this->email = "";
+        $isEmpty = empty($this->name) &&  empty( $this->username) && empty( $this->password) && empty($this->email);
+        return $isEmpty;
     }
     
     /**
