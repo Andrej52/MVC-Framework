@@ -33,13 +33,11 @@ class Form extends Database
         var_dump($switchcases);
 
         $initval = '1000000'; // initial value =>  TEXT
-        echo 'initval: '.$initval.'\n';
 
         for ($i=0; $i < count($this->type) ; $i++) {
             // checking each bitmap via bitshifrt right  
             if (($initval >> $i) == $switchcases[$i]  ) {
                 var_dump($switchcases[$i]);
-                print_r($this->type[$i]);
                 return $this->type[$i];
             }
         }
@@ -64,6 +62,35 @@ class Form extends Database
     }
 
     /**
+     * Validate if file exist , tries to open and check if it is empty
+     */
+    protected function openFile($file)
+    {
+        try {
+            if (!file_exists($file)) {
+                throw new Exception("Error: The file '$file' does not exist.");
+            }
+
+            $rawData = file_get_contents($file);
+
+            if ($rawData === false) {
+                throw new Exception("Error: Unable to read the file '$file'. It may be corrupted or inaccessible.");
+            }
+            
+            // Check if the file is empty
+            if (empty($rawData)) {
+                throw new Exception("Error: The file '$file' is empty.");
+            }
+
+            return $rawData;
+
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+
+    /**
      * Generates Form from JSON file
      * @param string $fileName name of the JSON file eg.: "DATA.json"
      * @param string $formName name of the form
@@ -72,10 +99,24 @@ class Form extends Database
      */
     public function createFormbyJSON($fileName, $formName, $controller, $method)
     {
-     //   var_dump(__DIR__);
-        $jsonData = file_get_contents(dirname(__DIR__,1).$this->jsonFilePath.$fileName);
-        $jsonDecodedData = json_decode($jsonData,true); // decodes data from forms.json ,  accesible by formName  
-        $form = $jsonDecodedData[$formName]; // form inputs metadata 
+        $directory = dirname(__DIR__,1).$this->jsonFilePath.$fileName;
+        $file_response =  $this->openFile($directory);
+        if (strpos($file_response, 'Error:') === 0) {
+            // Handle the error
+            exit("An error occurred: " . $file_response);
+        }
+
+        $jsonData = json_decode($file_response,true); // decodes data from forms.json ,  accesible by formName  
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            exit("An error occurred: Invalid JSON format.");
+        }
+
+        if (!isset($jsonData[$formName])) {
+            exit("An error occurred: Form '$formName' not found in JSON data.");
+        }
+
+        $form = $jsonData[$formName]; // form inputs metadata 
 
         echo'<form action="../app/controllers/'.$controller.'" enctype="multipart/form-data" method="'.$method.'">';
         echo '<input type="hidden" name="table" value="'.$formName.'">';
@@ -88,18 +129,46 @@ class Form extends Database
         //echo '<script>alert("this form has been generated from JSON")</script>'; 
     }
 
-    // generate FORM via XML
-    /*
-    // TODO
-    public function createFormByXML($fileName,$controller,$method)
+    /**
+     * generate FORM via XML 
+     * @param string $fileName name of the XML file eg.: "excelExport.xml"
+     * @param string $formName name of the form
+     * @param string $controller controller name
+     * @param string $method POST || GET
+     * */
+    public function createFormByXML($fileName,$formName,$controller,$method)
     {
-        echo'<form action="../app/controllers/'.$controller.'" enctype="multipart/form-data" method="'.$method.'">';
-        echo '<input type="hidden" name="table" value="'.$tableName.'">';
-        for ($i=0; $i < $colsCount; $i++) { 
-            echo '<input type="hidden" name="table" value="'.$tableName.'">';
+        $directory = dirname(__DIR__,1).$this->filePath.$fileName;
+        $file_response = $this->openFile($directory);
+
+        if (strpos($file_response, 'Error:') === 0) {
+            exit("An error occurred: " . $file_response);
+        }
+
+        $xmlData = simplexml_load_string($file_response);
+
+        if ($xmlData === false) {
+            exit("An error occurred: Invalid XML format.");
+        }
+
+        $form = $xmlData->xpath("//form[@name='$formName']");
+
+        if (empty($form)) {
+            exit("An error occurred: Form '$formName' not found in XML data.");
+        }
+
+        $form = $form[0];
+        
+         echo'<form action="../app/controllers/'.$controller.'" enctype="multipart/form-data" method="'.$method.'">';
+        echo '<input type="hidden" name="table" value="'.$formName.'">';
+        for ($i=0; $i < count($form); $i++) { // iterate over all inputs
+            foreach ($form[$i] as $key => $value) { // iterate over all inputs's metada and insert
+                echo '<input type="'.$value['type'].'" name="'.$value['name'].'" value="'.$value['value'].'" placeholder="'.$value['placeholder'].'">';
+            }
         }
         echo '</form>';
-    }
-    */
     
+    }
+
+
 }
